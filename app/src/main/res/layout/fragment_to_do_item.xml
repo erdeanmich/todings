@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="170dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".overview.fragments.ToDoItemFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/to_do_item_title"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:text="@string/dummy_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textStyle="bold"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="5sp"
+            android:autoSizeMaxTextSize="50sp"
+            android:autoSizeStepGranularity="2sp"
+            android:layout_margin="10dp" />
+        <TextView
+            android:id="@+id/to_do_item_deadline"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="10dp"
+            tools:text="@tools:sample/date/ddmmyy"
+            app:layout_constraintTop_toBottomOf="@id/to_do_item_title"/>
+
+        <ImageView
+            android:id="@+id/to_do_item_priority_image"
+            android:contentDescription="@string/the_priority_of_the_todo_item"
+            android:layout_width="60dp"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/to_do_item_description"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/to_do_item_deadline"
+            android:layout_margin="10dp">
+        </ImageView>
+        <TextView
+            android:id="@+id/to_do_item_description"
+            android:layout_width="200dp"
+            android:layout_height="0dp"
+            android:textColor="#555555"
+            tools:text="@tools:sample/lorem/random"
+            app:layout_constraintTop_toBottomOf="@id/to_do_item_deadline"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/to_do_item_priority_image"
+            android:layout_margin="10dp" />
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="10dp"
+            app:layout_constraintStart_toEndOf="@id/to_do_item_description"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/to_do_item_deadline">
+            <ImageView
+                android:id="@+id/to_do_item_checkbox"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_unchecked"
+                android:clickable="true"
+                android:focusable="true"
+                android:contentDescription="@string/todo_checkbox" />
+        </FrameLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

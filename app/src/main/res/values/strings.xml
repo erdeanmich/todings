@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">ToDings</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="todings">ToDings</string>
+    <string name="create_new_to_dings">Create new ToDings</string>
+    <string name="sort">Sort</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="dummy_title">Dummy Title</string>
+    <string name="the_priority_of_the_todo_item">The priority of the ToDo item</string>
+    <string name="button_to_check_the_todo_item">Button to check the ToDo item</string>
+    <string name="todo_checkbox">ToDo Checkbox</string>
+    <string name="to_dings_title">ToDings Title</string>
+    <string name="description">Description</string>
+    <string name="the_title_of_your_todings">The title of your ToDings</string>
+    <string name="describe_your_todings_what_is_it_about">Describe your ToDings. What is it about?</string>
+    <string name="deadline">Deadline</string>
+</resources>
