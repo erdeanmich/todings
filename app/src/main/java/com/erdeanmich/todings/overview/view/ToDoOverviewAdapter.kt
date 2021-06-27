@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.erdeanmich.todings.R
 import com.erdeanmich.todings.model.ToDoItem
 import com.erdeanmich.todings.model.ToDoPriority
+import com.erdeanmich.todings.util.CheckboxDrawableProvider
 import java.text.SimpleDateFormat
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -47,12 +48,8 @@ class ToDoOverviewAdapter(private val toDoItems: List<ToDoItem>): RecyclerView.A
         }
 
         fun setDoneStatus(isDone: Boolean): ToDoItemViewHolder {
-            //TODO refactor
-            if (isDone) {
-                checkBoxButton.setImageDrawable(ContextCompat.getDrawable(view.context, R.drawable.ic_checked))
-            } else {
-                checkBoxButton.setImageDrawable(ContextCompat.getDrawable(view.context, R.drawable.ic_unchecked))
-            }
+            val drawable = CheckboxDrawableProvider().getCheckboxState(isDone, view.context)
+            checkBoxButton.setImageDrawable(drawable)
             return this
         }
     }

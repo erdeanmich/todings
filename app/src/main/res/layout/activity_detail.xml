@@ -5,29 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-            app:popupTheme="@style/Theme.ToDings.PopupOverlay" />
-
-    </com.google.android.material.appbar.AppBarLayout>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="70dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
-        android:background="@drawable/bg_border"
-        android:padding="20dp"
+        android:layout_marginTop="20dp"
         tools:context=".overview.activities.OverviewActivity">
 
 
@@ -40,7 +24,7 @@
             android:hint="@string/the_title_of_your_todings"
             android:inputType="text"
             android:lines="1"
-            app:layout_constraintEnd_toEndOf="@id/guideline_image"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -69,10 +53,11 @@
             android:id="@+id/priority"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:background="@drawable/bg_border_thin"
             android:layout_marginStart="10dp"
             android:contentDescription="@string/the_priority_of_the_todo_item"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@id/deadline"
             app:layout_constraintStart_toStartOf="@id/guideline_image"
             app:layout_constraintBottom_toTopOf="@id/guideline_after_deadline">
 
@@ -102,9 +87,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="237dp" />
+            app:layout_constraintGuide_begin="200dp" />
 
         <FrameLayout
+            android:id="@+id/to_do_checkbox"
             android:layout_width="0dp"
             android:layout_height="80dp"
             android:layout_margin="10dp"
@@ -113,13 +99,14 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/description_edit">
             <ImageView
-                android:id="@+id/to_do_item_checkbox"
+                android:id="@+id/detail_checkbox"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_unchecked"
                 android:clickable="true"
                 android:focusable="true"
                 android:contentDescription="@string/todo_checkbox" />
+
         </FrameLayout>
 
 
