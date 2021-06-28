@@ -1,11 +1,11 @@
 package com.erdeanmich.todings.overview.view
 
-
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.erdeanmich.todings.R
 import com.erdeanmich.todings.model.ToDoItem
@@ -22,7 +22,7 @@ class ToDoOverviewAdapter(
 ) : RecyclerView.Adapter<ToDoOverviewAdapter.ToDoItemViewHolder>() {
 
     inner class ToDoItemViewHolder(
-        private val view: View, context: Context,
+        private val view: View, private val context: Context,
         onCheckBoxClickListener: OnCheckBoxClickListener,
         onPrioritySelectListener: OnPrioritySelectListener
     ) :
@@ -32,6 +32,7 @@ class ToDoOverviewAdapter(
         private val deadline: TextView by lazy { view.findViewById(R.id.to_do_item_deadline) }
         private val spinner: Spinner by lazy { view.findViewById(R.id.to_do_item_priority_spinner) }
         private val checkBoxButton: ImageView by lazy { view.findViewById(R.id.to_do_item_checkbox) }
+        private val container: View by lazy { view.findViewById(R.id.to_do_item_container) }
         private var toDoItem: ToDoItem? = null
 
         init {
@@ -64,7 +65,7 @@ class ToDoOverviewAdapter(
 
         }
 
-        fun setToDoItem(toDoItem: ToDoItem) {
+        fun setup(toDoItem: ToDoItem) {
             this.toDoItem = toDoItem
             title.text = toDoItem.name
             description.text = toDoItem.description
@@ -73,21 +74,39 @@ class ToDoOverviewAdapter(
             deadline.text = formatter.format(toDoItem.deadline)
 
             spinner.setSelection(ToDoPriority.values().indexOf(toDoItem.priority))
-            val drawable = CheckboxDrawableProvider().getCheckboxState(toDoItem.isDone, view.context)
+            val drawable =
+                CheckboxDrawableProvider().getCheckboxState(toDoItem.isDone, view.context)
             checkBoxButton.setImageDrawable(drawable)
+
+            val now = Calendar.getInstance()
+            now.time = Date()
+            val deadlineC = Calendar.getInstance()
+            deadlineC.time = toDoItem.deadline
+            val backGround = when (now > deadlineC && !toDoItem.isDone) {
+                true -> R.drawable.bg_border_overdue
+                false -> R.drawable.bg_border
+            }
+
+            container.setBackgroundResource(backGround)
+            container.background = ContextCompat.getDrawable(context, backGround)
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ToDoItemViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val view = inflater.inflate(R.layout.fragment_to_do_item, parent, false)
-        return ToDoItemViewHolder(view, parent.context, onCheckBoxClickListener, onPrioritySelectListener)
+        return ToDoItemViewHolder(
+            view,
+            parent.context,
+            onCheckBoxClickListener,
+            onPrioritySelectListener
+        )
     }
 
     override fun onBindViewHolder(viewHolder: ToDoItemViewHolder, position: Int) {
         val toDoItem = toDoItems[position]
 
-        viewHolder.setToDoItem(toDoItem)
+        viewHolder.setup(toDoItem)
 
         viewHolder.itemView.setOnClickListener {
             onItemClickListener.onItemClick(toDoItem.id)

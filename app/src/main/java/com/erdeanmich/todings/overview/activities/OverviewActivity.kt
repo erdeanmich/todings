@@ -21,11 +21,19 @@ import com.erdeanmich.todings.overview.view.ToDoOverviewAdapter
 import com.erdeanmich.todings.util.observeOnce
 
 
-class OverviewActivity : AppCompatActivity(), ToDoOverviewAdapter.OnItemClickListener, ToDoOverviewAdapter.OnPrioritySelectListener, ToDoOverviewAdapter.OnCheckBoxClickListener {
+class OverviewActivity : AppCompatActivity(), ToDoOverviewAdapter.OnItemClickListener,
+    ToDoOverviewAdapter.OnPrioritySelectListener, ToDoOverviewAdapter.OnCheckBoxClickListener {
 
     private val viewModel: OverviewViewModel by viewModels()
     private val toDoItems = ArrayList<ToDoItem>()
-    private val adapter: ToDoOverviewAdapter by lazy { ToDoOverviewAdapter(toDoItems, this, this, this) }
+    private val adapter: ToDoOverviewAdapter by lazy {
+        ToDoOverviewAdapter(
+            toDoItems,
+            this,
+            this,
+            this
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +45,12 @@ class OverviewActivity : AppCompatActivity(), ToDoOverviewAdapter.OnItemClickLis
         val overviewRecyclerView = findViewById<RecyclerView>(R.id.overview_recycler_view)
         overviewRecyclerView.adapter = adapter
         overviewRecyclerView.layoutManager = LinearLayoutManager(this)
-        overviewRecyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+        overviewRecyclerView.addItemDecoration(
+            DividerItemDecoration(
+                this,
+                DividerItemDecoration.VERTICAL
+            )
+        )
 
         viewModel.getToDoItems().observe(this, { items ->
             toDoItems.clear()
@@ -55,7 +68,7 @@ class OverviewActivity : AppCompatActivity(), ToDoOverviewAdapter.OnItemClickLis
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when(item.itemId) {
+        return when (item.itemId) {
             R.id.action_sort -> {
                 true
             }
@@ -89,7 +102,7 @@ class OverviewActivity : AppCompatActivity(), ToDoOverviewAdapter.OnItemClickLis
                 true
             }
 
-            else ->  {
+            else -> {
                 super.onOptionsItemSelected(item)
             }
         }

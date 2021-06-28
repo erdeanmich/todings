@@ -18,7 +18,7 @@ class DetailViewModel(application: Application) : AndroidViewModel(application) 
 
 
     fun getToDoItemById(id: Long?): LiveData<ToDoItem> {
-        if(id != null) {
+        if (id != null) {
             getToDoItemByIdFromDatabase(id)
         } else {
             val date = Calendar.getInstance()
@@ -34,7 +34,7 @@ class DetailViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun setPriority(toDoPriority: ToDoPriority) {
-        if(toDoPriority == ToDoPriority.NONE && toDoItem.value?.priority != null && toDoItem.value?.priority != ToDoPriority.NONE) {
+        if (toDoPriority == ToDoPriority.NONE && toDoItem.value?.priority != null && toDoItem.value?.priority != ToDoPriority.NONE) {
             return
         }
 
@@ -50,8 +50,8 @@ class DetailViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun invertIsDone(): Boolean {
-        toDoItem.value?.isDone = !(toDoItem.value?.isDone?: false)
-        return toDoItem.value?.isDone?: false
+        toDoItem.value?.isDone = !(toDoItem.value?.isDone ?: false)
+        return toDoItem.value?.isDone ?: false
     }
 
     fun save() {

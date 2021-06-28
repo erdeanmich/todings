@@ -8,6 +8,7 @@
     tools:context=".overview.fragments.ToDoItemFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/to_do_item_container"
         android:background="@drawable/bg_border"
         android:layout_width="match_parent"
         android:layout_height="match_parent">

@@ -30,7 +30,7 @@ class OverviewViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    private fun loadToDoItems() {
+    fun loadToDoItems() {
         viewModelScope.launch {
             toDoItems.value = loadSortedToDoItems()
         }
@@ -50,7 +50,7 @@ class OverviewViewModel(application: Application) : AndroidViewModel(application
             .flatMap { it.value }
     }
 
-    fun update(toDoItem: ToDoItem){
+    fun update(toDoItem: ToDoItem) {
         viewModelScope.launch {
             toDoItemDao.update(toDoItem)
             toDoItems.value = loadSortedToDoItems()
@@ -71,7 +71,7 @@ class OverviewViewModel(application: Application) : AndroidViewModel(application
         return toDoItems.groupBy { item ->
             val c = Calendar.getInstance()
             c.time = item.deadline
-            c.set(Calendar.SECOND,0)
+            c.set(Calendar.SECOND, 0)
             c.set(Calendar.MILLISECOND, 0)
             return@groupBy c
         }
