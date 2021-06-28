@@ -14,9 +14,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.erdeanmich.todings.R
 import com.erdeanmich.todings.detail.activities.DetailActivity
 import com.erdeanmich.todings.model.ToDoItem
+import com.erdeanmich.todings.model.ToDoOverviewSortMode
 import com.erdeanmich.todings.model.ToDoPriority
 import com.erdeanmich.todings.overview.view.OverviewViewModel
 import com.erdeanmich.todings.overview.view.ToDoOverviewAdapter
+import com.erdeanmich.todings.util.observeOnce
 
 
 class OverviewActivity : AppCompatActivity(), ToDoOverviewAdapter.OnItemClickListener, ToDoOverviewAdapter.OnPrioritySelectListener, ToDoOverviewAdapter.OnCheckBoxClickListener {
@@ -47,6 +49,8 @@ class OverviewActivity : AppCompatActivity(), ToDoOverviewAdapter.OnItemClickLis
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_overview, menu)
+        val menuItem = menu?.findItem(R.id.action_sort)
+        menuInflater.inflate(R.menu.menu_sort_sub, menuItem?.subMenu)
         return true
     }
 
@@ -66,6 +70,16 @@ class OverviewActivity : AppCompatActivity(), ToDoOverviewAdapter.OnItemClickLis
             }
 
             R.id.action_sync_all_to_server -> {
+                true
+            }
+
+            R.id.action_sort_by_date_and_priority -> {
+                viewModel.setSortMode(ToDoOverviewSortMode.DATE_PRIORITY)
+                true
+            }
+
+            R.id.action_sort_by_priority_and_date -> {
+                viewModel.setSortMode(ToDoOverviewSortMode.PRIORITY_DATE)
                 true
             }
 
@@ -89,16 +103,12 @@ class OverviewActivity : AppCompatActivity(), ToDoOverviewAdapter.OnItemClickLis
     }
 
     override fun onPrioritySelect(id: Long, toDoPriority: ToDoPriority) {
-        val index = toDoItems.indexOfFirst { it.id == id }
-        toDoItems[index].priority = toDoPriority
-        viewModel.update(toDoItems[index])
-        adapter.notifyItemChanged(index)
+        val item = toDoItems.first { it.id == id }.apply { priority = toDoPriority }
+        viewModel.update(item)
     }
 
     override fun onCheckBoxClick(id: Long) {
-        val index = toDoItems.indexOfFirst { it.id == id }
-        toDoItems[index].isDone = !toDoItems[index].isDone
-        viewModel.update(toDoItems[index])
-        adapter.notifyItemChanged(index)
+        val item = toDoItems.first { it.id == id }.apply { isDone = !isDone }
+        viewModel.update(item)
     }
 }

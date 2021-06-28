@@ -19,6 +19,8 @@ class TimePickerFragment(private val calendar: Calendar): DialogFragment(), Time
         if (a is TimeReceiver) {
             calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
             calendar.set(Calendar.MINUTE, minute)
+            calendar.set(Calendar.SECOND, 0)
+            calendar.set(Calendar.MILLISECOND, 0)
             a.receiveTime(calendar.time)
         }
     }

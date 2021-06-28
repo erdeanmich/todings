@@ -21,7 +21,10 @@ class DetailViewModel(application: Application) : AndroidViewModel(application) 
         if(id != null) {
             getToDoItemByIdFromDatabase(id)
         } else {
-            toDoItem.value = ToDoItem(0, "", "", false, Date(), ToDoPriority.NONE)
+            val date = Calendar.getInstance()
+            date.time = Date()
+            date.set(Calendar.SECOND, 0)
+            toDoItem.value = ToDoItem(0, "", "", false, date.time, ToDoPriority.NONE)
         }
         return toDoItem
     }

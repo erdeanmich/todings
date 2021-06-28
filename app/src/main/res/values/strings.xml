@@ -30,4 +30,7 @@
     <string name="delete_all_todings">Delete all ToDings</string>
     <string name="delete_all_remote_todings">Delete all remote ToDings</string>
     <string name="sync_todings_to_server">Sync ToDings to server</string>
+    <string name="done_status">Sort by done status</string>
+    <string name="sort_by_priority_date">Sort by priority + date</string>
+    <string name="sort_by_date_priority">Sort by date + priority</string>
 </resources>
