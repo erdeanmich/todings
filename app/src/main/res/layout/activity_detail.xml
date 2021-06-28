@@ -5,20 +5,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:theme="@style/Theme.ToDings"
+            app:popupTheme="@style/Theme.ToDings.PopupOverlay" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
-        android:layout_marginTop="20dp"
-        tools:context=".overview.activities.OverviewActivity">
+        android:layout_marginTop="70dp"
+        tools:context=".overview.activities.DetailActivity">
 
 
         <EditText
             android:id="@+id/title_edit"
             android:layout_width="0dp"
             android:layout_height="50dp"
+            android:padding="10dp"
             android:autofillHints="Title of ToDo"
             android:background="@drawable/bg_border_thin"
             android:hint="@string/the_title_of_your_todings"
@@ -37,29 +52,23 @@
             android:autofillHints="Deadline"
             android:background="@drawable/bg_border_thin"
             android:inputType="date"
-            android:padding="5dp"
+            android:padding="10dp"
             app:layout_constraintEnd_toStartOf="@id/guideline_image"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/title_edit" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_after_deadline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@id/deadline" />
 
         <LinearLayout
             android:id="@+id/priority"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/bg_border_thin"
             android:layout_marginStart="10dp"
             android:contentDescription="@string/the_priority_of_the_todo_item"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/deadline"
-            app:layout_constraintStart_toStartOf="@id/guideline_image"
-            app:layout_constraintBottom_toTopOf="@id/guideline_after_deadline">
+            app:layout_constraintStart_toEndOf="@id/guideline_image"
+            app:layout_constraintTop_toBottomOf="@id/title_edit"
+            app:layout_constraintEnd_toEndOf="parent">
 
             <Spinner
                 android:id="@+id/priority_spinner"
@@ -72,14 +81,15 @@
             android:id="@+id/description_edit"
             android:layout_width="match_parent"
             android:layout_height="200dp"
+            android:textAlignment="textStart"
             android:background="@drawable/bg_border_thin"
             android:hint="@string/describe_your_todings_what_is_it_about"
             android:inputType="textMultiLine"
-            android:padding="5dp"
+            android:padding="10dp"
             android:layout_marginTop="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/deadline" />
+            app:layout_constraintTop_toBottomOf="@id/priority" />
 
 
         <androidx.constraintlayout.widget.Guideline
@@ -93,10 +103,11 @@
             android:id="@+id/to_do_checkbox"
             android:layout_width="0dp"
             android:layout_height="80dp"
+            android:background="@drawable/bg_border_thin"
+
             android:layout_margin="10dp"
             app:layout_constraintStart_toEndOf="@id/guideline_image"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/description_edit">
             <ImageView
                 android:id="@+id/detail_checkbox"
@@ -108,6 +119,15 @@
                 android:contentDescription="@string/todo_checkbox" />
 
         </FrameLayout>
+
+        <Button
+            android:id="@+id/save_button"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/to_do_checkbox"
+            android:layout_margin="10dp"
+            android:text="@string/save" />
 
 
 

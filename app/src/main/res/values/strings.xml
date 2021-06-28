@@ -23,4 +23,11 @@
     <string name="the_title_of_your_todings">The title of your ToDings</string>
     <string name="describe_your_todings_what_is_it_about">Describe your ToDings. What is it about?</string>
     <string name="deadline">Deadline</string>
+    <string name="save">Save</string>
+    <string name="back_to_overview">Back to overview</string>
+    <string name="delete_this_todings">Delete this ToDings</string>
+    <string name="add_new_todings">Add new ToDings</string>
+    <string name="delete_all_todings">Delete all ToDings</string>
+    <string name="delete_all_remote_todings">Delete all remote ToDings</string>
+    <string name="sync_todings_to_server">Sync ToDings to server</string>
 </resources>

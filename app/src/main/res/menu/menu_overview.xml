@@ -6,12 +6,23 @@
         android:icon="@drawable/ic_sort"
         android:title="@string/sort"
         app:showAsAction="ifRoom"/>
-
+    <item
+        android:id="@+id/action_add"
+        android:icon="@drawable/ic_baseline_add_24"
+        android:title="@string/add_new_todings"
+        app:showAsAction="ifRoom"/>
 
     <!-- Settings, should always be in the overflow -->
-    <item android:id="@+id/action_settings"
-        android:title="@string/action_settings"
-        android:iconTint="@android:color/white"
+    <item android:id="@+id/action_delete_all"
+        android:title="@string/delete_all_todings"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/action_delete_all_online"
+        android:title="@string/delete_all_remote_todings"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/action_sync_all_to_server"
+        android:title="@string/sync_todings_to_server"
         app:showAsAction="never"/>
 
 

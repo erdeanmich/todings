@@ -1,75 +1,111 @@
 package com.erdeanmich.todings.overview.view
 
-import android.annotation.SuppressLint
+
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.core.content.ContextCompat
+import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.erdeanmich.todings.R
 import com.erdeanmich.todings.model.ToDoItem
 import com.erdeanmich.todings.model.ToDoPriority
 import com.erdeanmich.todings.util.CheckboxDrawableProvider
 import java.text.SimpleDateFormat
-import java.time.format.DateTimeFormatter
 import java.util.*
 
-class ToDoOverviewAdapter(private val toDoItems: List<ToDoItem>): RecyclerView.Adapter<ToDoOverviewAdapter.ToDoItemViewHolder>() {
+class ToDoOverviewAdapter(
+    private val toDoItems: List<ToDoItem>,
+    private val onItemClickListener: OnItemClickListener,
+    private val onCheckBoxClickListener: OnCheckBoxClickListener,
+    private val onPrioritySelectListener: OnPrioritySelectListener
+) : RecyclerView.Adapter<ToDoOverviewAdapter.ToDoItemViewHolder>() {
 
-    inner class ToDoItemViewHolder(private val view: View): RecyclerView.ViewHolder(view) {
-        private val title: TextView by lazy { view.findViewById(R.id.to_do_item_title)}
+    inner class ToDoItemViewHolder(
+        private val view: View, context: Context,
+        onCheckBoxClickListener: OnCheckBoxClickListener,
+        onPrioritySelectListener: OnPrioritySelectListener
+    ) :
+        RecyclerView.ViewHolder(view) {
+        private val title: TextView by lazy { view.findViewById(R.id.to_do_item_title) }
         private val description: TextView by lazy { view.findViewById(R.id.to_do_item_description) }
         private val deadline: TextView by lazy { view.findViewById(R.id.to_do_item_deadline) }
-        private val priorityImage: ImageView by lazy { view.findViewById(R.id.to_do_item_priority_image) }
+        private val spinner: Spinner by lazy { view.findViewById(R.id.to_do_item_priority_spinner) }
         private val checkBoxButton: ImageView by lazy { view.findViewById(R.id.to_do_item_checkbox) }
+        private var toDoItem: ToDoItem? = null
 
-        fun setTitle(title: String): ToDoItemViewHolder {
-            this.title.text = title
-            return this
+        init {
+            val prioritySpinnerAdapter = ArrayAdapter(
+                context,
+                R.layout.support_simple_spinner_dropdown_item,
+                ToDoPriority.values().map { it.toString() })
+
+            spinner.adapter = prioritySpinnerAdapter
+            spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    onPrioritySelectListener.onPrioritySelect(
+                        toDoItem!!.id,
+                        ToDoPriority.values()[position]
+                    )
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
+            }
+
+            checkBoxButton.setOnClickListener {
+                onCheckBoxClickListener.onCheckBoxClick(toDoItem!!.id)
+            }
+
+
         }
 
-        fun setDescription(description: String): ToDoItemViewHolder {
-            this.description.text = description
-            return this
-        }
+        fun setToDoItem(toDoItem: ToDoItem) {
+            this.toDoItem = toDoItem
+            title.text = toDoItem.name
+            description.text = toDoItem.description
 
-        @SuppressLint("SimpleDateFormat")
-        fun setDeadline(deadline: Date): ToDoItemViewHolder {
-            val formatter = SimpleDateFormat("dd-MM-yyyy")
-            this.deadline.text = formatter.format(deadline)
-            return this
-        }
+            val formatter = SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.GERMAN)
+            deadline.text = formatter.format(toDoItem.deadline)
 
-        fun setPriority(priority: ToDoPriority): ToDoItemViewHolder {
-            //TODO map priority to image
-            return this
-        }
-
-        fun setDoneStatus(isDone: Boolean): ToDoItemViewHolder {
-            val drawable = CheckboxDrawableProvider().getCheckboxState(isDone, view.context)
+            spinner.setSelection(ToDoPriority.values().indexOf(toDoItem.priority))
+            val drawable = CheckboxDrawableProvider().getCheckboxState(toDoItem.isDone, view.context)
             checkBoxButton.setImageDrawable(drawable)
-            return this
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ToDoItemViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val view = inflater.inflate(R.layout.fragment_to_do_item, parent, false)
-        return ToDoItemViewHolder(view)
+        return ToDoItemViewHolder(view, parent.context, onCheckBoxClickListener, onPrioritySelectListener)
     }
 
     override fun onBindViewHolder(viewHolder: ToDoItemViewHolder, position: Int) {
         val toDoItem = toDoItems[position]
 
-        viewHolder
-                .setTitle(toDoItem.name)
-                .setDescription(toDoItem.description)
-                .setPriority(toDoItem.priority)
-                .setDoneStatus(toDoItem.isDone)
-                .setDeadline(toDoItem.deadline)
+        viewHolder.setToDoItem(toDoItem)
+
+        viewHolder.itemView.setOnClickListener {
+            onItemClickListener.onItemClick(toDoItem.id)
+        }
     }
 
     override fun getItemCount() = toDoItems.size
+
+    interface OnItemClickListener {
+        fun onItemClick(id: Long)
+    }
+
+    interface OnCheckBoxClickListener {
+        fun onCheckBoxClick(id: Long)
+    }
+
+    interface OnPrioritySelectListener {
+        fun onPrioritySelect(id: Long, toDoPriority: ToDoPriority)
+    }
 }
+

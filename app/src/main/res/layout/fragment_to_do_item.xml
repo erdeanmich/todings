@@ -2,63 +2,75 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="170dp"
+    android:layout_height="250dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginBottom="10dp"
     tools:context=".overview.fragments.ToDoItemFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:background="@drawable/bg_border_thin"
+        android:background="@drawable/bg_border"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <TextView
             android:id="@+id/to_do_item_title"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="70dp"
             android:text="@string/dummy_title"
+            android:background="@drawable/bg_border_thin"
+            android:padding="10dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:textStyle="bold"
-            android:autoSizeTextType="uniform"
-            android:autoSizeMinTextSize="5sp"
-            android:autoSizeMaxTextSize="50sp"
-            android:autoSizeStepGranularity="2sp"
+            android:textSize="30sp"
             android:layout_margin="10dp" />
         <TextView
             android:id="@+id/to_do_item_deadline"
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginStart="10dp"
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:padding="10dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/bg_border_thin"
+            app:layout_constraintStart_toStartOf="parent"
             tools:text="@tools:sample/date/ddmmyy"
             app:layout_constraintTop_toBottomOf="@id/to_do_item_title"/>
-
-        <ImageView
-            android:id="@+id/to_do_item_priority_image"
+        <LinearLayout
+            android:id="@+id/priority"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/bg_border_thin"
+            android:layout_marginStart="10dp"
             android:contentDescription="@string/the_priority_of_the_todo_item"
-            android:layout_width="60dp"
-            android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/to_do_item_description"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/to_do_item_deadline"
-            android:layout_margin="10dp">
-        </ImageView>
+            app:layout_constraintStart_toEndOf="@id/to_do_item_deadline"
+            app:layout_constraintTop_toBottomOf="@id/to_do_item_title"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <Spinner
+                android:id="@+id/to_do_item_priority_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+
         <TextView
             android:id="@+id/to_do_item_description"
-            android:layout_width="200dp"
+            android:layout_width="250dp"
+            android:padding="10dp"
+            android:background="@drawable/bg_border_thin"
             android:layout_height="0dp"
             android:textColor="#555555"
             tools:text="@tools:sample/lorem/random"
             app:layout_constraintTop_toBottomOf="@id/to_do_item_deadline"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/to_do_item_priority_image"
+            app:layout_constraintStart_toStartOf="parent"
             android:layout_margin="10dp" />
 
         <FrameLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_margin="10dp"
+            android:background="@drawable/bg_border_thin"
             app:layout_constraintStart_toEndOf="@id/to_do_item_description"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ToDings">
-        <activity android:name=".detail.activities.DetailActivity"></activity>
+        <activity android:name=".detail.activities.DetailActivity"
+            android:theme="@style/Theme.ToDings.NoActionBar">
+        </activity>
         <activity
             android:name=".overview.activities.OverviewActivity"
             android:label="@string/app_name"
