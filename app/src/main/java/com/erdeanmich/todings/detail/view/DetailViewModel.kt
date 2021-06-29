@@ -9,12 +9,16 @@ import com.erdeanmich.todings.database.DatabaseProvider
 import com.erdeanmich.todings.database.ToDoItemDAO
 import com.erdeanmich.todings.model.ToDoItem
 import com.erdeanmich.todings.model.ToDoPriority
+import com.erdeanmich.todings.web.model.ApiTransformer
+import com.erdeanmich.todings.web.service.ToDoService
 import kotlinx.coroutines.launch
 import java.util.*
 
 class DetailViewModel(application: Application) : AndroidViewModel(application) {
     private val toDoItemDao: ToDoItemDAO by lazy { DatabaseProvider.getToDoItemDAO(application) }
     private val toDoItem: MutableLiveData<ToDoItem> = MutableLiveData<ToDoItem>()
+    private val transformer = ApiTransformer()
+    private val service by lazy { ToDoService.getService() }
 
 
     fun getToDoItemById(id: Long?): LiveData<ToDoItem> {
@@ -56,18 +60,23 @@ class DetailViewModel(application: Application) : AndroidViewModel(application) 
 
     fun save() {
         viewModelScope.launch {
+            val item = toDoItem.value!!
             if (existingInDatabase()) {
-                toDoItemDao.update(toDoItem.value!!)
+                toDoItemDao.update(item)
+                service.updateToDo(item.id, transformer.localToApi(item))
             } else {
-                val id = toDoItemDao.insert(toDoItem.value!!)
+                val id = toDoItemDao.insert(item)
                 toDoItem.value?.id = id
+                item.id = id
+                service.createToDo(transformer.localToApi(item))
             }
         }
     }
 
     fun delete() {
         viewModelScope.launch {
-
+            toDoItemDao.delete(toDoItem.value!!)
+            service.deleteToDo(toDoItem.value!!.id)
         }
     }
 

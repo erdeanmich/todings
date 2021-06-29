@@ -52,11 +52,14 @@ class DetailActivity : AppCompatActivity(), DateReceiver, TimeReceiver {
         return true
     }
 
+    override fun onBackPressed() {
+        // nothing
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
             R.id.action_delete -> {
-                // delete from database
-
+                viewModel.delete()
                 backToOverview()
             }
             R.id.action_back_from_detail -> {

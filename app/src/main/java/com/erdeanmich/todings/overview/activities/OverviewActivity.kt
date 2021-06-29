@@ -5,9 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Spinner
+import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -52,12 +51,32 @@ class OverviewActivity : AppCompatActivity(), ToDoOverviewAdapter.OnItemClickLis
             )
         )
 
+//        viewModel.getToDoItems().observeOnce(this, {items ->
+//            if(items.isEmpty()) {
+//                viewModel.getRemoteToDos()
+//            } else {
+//                viewModel.syncLocalToDosToRemote()
+//            }
+//        })
+
         viewModel.getToDoItems().observe(this, { items ->
             toDoItems.clear()
             toDoItems.addAll(items)
             adapter.notifyDataSetChanged()
         })
 
+        viewModel.getApiErrorMessages().observe(this, {
+            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+        })
+
+        viewModel.getApiSuccessMessages().observe(this, {
+            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+        })
+
+    }
+
+    override fun onBackPressed() {
+        // nothing
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -69,7 +88,8 @@ class OverviewActivity : AppCompatActivity(), ToDoOverviewAdapter.OnItemClickLis
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.action_sort -> {
+            R.id.action_get_all_from_server -> {
+                viewModel.getRemoteToDos()
                 true
             }
 
@@ -79,10 +99,12 @@ class OverviewActivity : AppCompatActivity(), ToDoOverviewAdapter.OnItemClickLis
             }
 
             R.id.action_delete_all_online -> {
+                viewModel.deleteRemoteToDos()
                 true
             }
 
             R.id.action_sync_all_to_server -> {
+                viewModel.syncLocalToDosToRemote()
                 true
             }
 

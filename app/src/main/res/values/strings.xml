@@ -33,4 +33,14 @@
     <string name="done_status">Sort by done status</string>
     <string name="sort_by_priority_date">Sort by priority + date</string>
     <string name="sort_by_date_priority">Sort by date + priority</string>
+    <string name="get_todings_from_server">Get ToDings from server</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
 </resources>

@@ -81,7 +81,7 @@
             android:id="@+id/description_edit"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:textAlignment="textStart"
+            android:gravity="top|start"
             android:background="@drawable/bg_border_thin"
             android:hint="@string/describe_your_todings_what_is_it_about"
             android:inputType="textMultiLine"

@@ -6,21 +6,35 @@ import com.erdeanmich.todings.database.DatabaseProvider
 import com.erdeanmich.todings.database.ToDoItemDAO
 import com.erdeanmich.todings.model.ToDoItem
 import com.erdeanmich.todings.model.ToDoOverviewSortMode
+import com.erdeanmich.todings.web.model.ApiTransformer
+import com.erdeanmich.todings.web.service.ToDoService
 import kotlinx.coroutines.launch
 import java.util.*
 
 class OverviewViewModel(application: Application) : AndroidViewModel(application) {
     private var currentSortMode = ToDoOverviewSortMode.PRIORITY_DATE
+    private val transformer = ApiTransformer()
     private val toDoItemDao: ToDoItemDAO by lazy { DatabaseProvider.getToDoItemDAO(application) }
+    private val apiErrorMessage = MutableLiveData<String>()
+    private val apiSuccessMessage = MutableLiveData<String>()
     private val toDoItems: MutableLiveData<List<ToDoItem>> by lazy {
         MutableLiveData<List<ToDoItem>>().also {
             loadToDoItems()
         }
     }
 
+
     fun getToDoItems(): LiveData<List<ToDoItem>> {
         loadToDoItems()
         return toDoItems
+    }
+
+    fun getApiErrorMessages(): LiveData<String> {
+        return apiErrorMessage
+    }
+
+    fun getApiSuccessMessages(): LiveData<String> {
+        return apiSuccessMessage
     }
 
     fun deleteToDoItems() {
@@ -86,6 +100,55 @@ class OverviewViewModel(application: Application) : AndroidViewModel(application
     fun setSortMode(sortMode: ToDoOverviewSortMode) {
         currentSortMode = sortMode
         loadToDoItems()
+    }
+
+    fun deleteRemoteToDos() {
+        viewModelScope.launch {
+            val response = ToDoService.getService().deleteAllToDos()
+            if (response.isSuccessful) {
+                apiSuccessMessage.value = "Deleted all remote ToDings"
+            } else {
+                apiErrorMessage.value = "Deleting ToDings failed with: ${response.message()}"
+            }
+        }
+    }
+
+    fun getRemoteToDos() {
+       viewModelScope.launch {
+           val response = ToDoService.getService().getAllToDos()
+           if(!response.isSuccessful) {
+               apiErrorMessage.value = "Getting ToDings failed with: ${response.message()}"
+               return@launch
+           }
+
+           val items = response.body()?.map { transformer.apiToLocal(it) }?: emptyList<ToDoItem>()
+           toDoItemDao.deleteAll()
+           items.forEach { toDoItemDao.insert(it)}
+           toDoItems.value = items
+       }
+    }
+
+    fun syncLocalToDosToRemote() {
+        viewModelScope.launch {
+            val service = ToDoService.getService()
+            val deleteResponse = service.deleteAllToDos()
+            if (!deleteResponse.isSuccessful) {
+                apiErrorMessage.value = "Deleting ToDings failed with: ${deleteResponse.message()}"
+                return@launch
+            }
+
+            val items = toDoItems.value?: emptyList()
+            val results = items.map { transformer.localToApi(it) }
+                .map {
+                    val insertResponse = service.createToDo(it)
+                    insertResponse.isSuccessful
+                }
+                .groupingBy { it }
+                .eachCount()
+
+            val successful = results[true]
+            apiSuccessMessage.value = "Synced $successful of ${items.size} ToDings to server"
+        }
     }
 
 }

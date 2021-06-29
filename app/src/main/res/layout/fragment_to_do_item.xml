@@ -16,6 +16,7 @@
             android:id="@+id/to_do_item_title"
             android:layout_width="0dp"
             android:layout_height="70dp"
+            android:gravity="left|center"
             android:text="@string/dummy_title"
             android:background="@drawable/bg_border_thin"
             android:padding="10dp"
@@ -23,11 +24,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:textStyle="bold"
-            android:textSize="30sp"
+            android:textSize="25sp"
             android:layout_margin="10dp" />
         <TextView
             android:id="@+id/to_do_item_deadline"
-            android:layout_width="200dp"
+            android:layout_width="150dp"
             android:layout_height="40dp"
             android:padding="10dp"
             android:layout_margin="10dp"

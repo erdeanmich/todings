@@ -27,5 +27,9 @@
         android:title="@string/sync_todings_to_server"
         app:showAsAction="never"/>
 
+    <item android:id="@+id/action_get_all_from_server"
+        android:title="@string/get_todings_from_server"
+        app:showAsAction="never"/>
+
 
 </menu>
