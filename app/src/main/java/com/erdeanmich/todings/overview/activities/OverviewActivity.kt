@@ -51,14 +51,6 @@ class OverviewActivity : AppCompatActivity(), ToDoOverviewAdapter.OnItemClickLis
             )
         )
 
-//        viewModel.getToDoItems().observeOnce(this, {items ->
-//            if(items.isEmpty()) {
-//                viewModel.getRemoteToDos()
-//            } else {
-//                viewModel.syncLocalToDosToRemote()
-//            }
-//        })
-
         viewModel.getToDoItems().observe(this, { items ->
             toDoItems.clear()
             toDoItems.addAll(items)

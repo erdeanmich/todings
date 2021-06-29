@@ -43,4 +43,8 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="login">Login</string>
+    <string name="mail_address">Your mail address</string>
+    <string name="the_super_secret_password">The super secret password</string>
+    <string name="please_provide_valid_credentials">Please provide valid credentials</string>
 </resources>

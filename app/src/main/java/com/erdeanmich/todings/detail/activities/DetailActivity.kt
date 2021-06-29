@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.doOnTextChanged
 import com.erdeanmich.todings.R
 import com.erdeanmich.todings.detail.fragments.DatePickerFragment
@@ -59,8 +60,19 @@ class DetailActivity : AppCompatActivity(), DateReceiver, TimeReceiver {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
             R.id.action_delete -> {
-                viewModel.delete()
-                backToOverview()
+                AlertDialog.Builder(this)
+                    .setMessage("Do you really want to delete this ToDings?")
+                    .setCancelable(false)
+                    .setNegativeButton("Hell no!") { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                    .setPositiveButton("Sure") {dialog, id ->
+                        viewModel.delete()
+                        dialog.dismiss()
+                        backToOverview()
+                    }
+                    .create()
+                    .show()
             }
             R.id.action_back_from_detail -> {
                 backToOverview()
