@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.erdeanmich.todings.R
@@ -24,7 +25,7 @@ import java.net.Socket
 import java.util.*
 
 class LoginActivity : AppCompatActivity() {
-    private val inputDelay = 2000L
+    private val inputDelay = 1500L
     private var mailDebounceJob: Job? = null
     private var passwordDebounceJob: Job? = null
     private var isFirstMailCheck = true
@@ -48,7 +49,7 @@ class LoginActivity : AppCompatActivity() {
                 socket.connect(InetSocketAddress("192.168.0.243", 8080), 10000)
                 socket.close()
             } catch (e: Exception) {
-                showOverview()
+                showOverview(true)
             }
 
         }
@@ -96,7 +97,9 @@ class LoginActivity : AppCompatActivity() {
                 progressSpinner.visibility = View.INVISIBLE
 
                 if (response.body() == false) {
-                    loginError.visibility = View.VISIBLE
+                    withContext(Dispatchers.Main) {
+                        loginError.visibility = View.VISIBLE
+                    }
                     return@launch
                 }
 
@@ -112,8 +115,9 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun showOverview() {
+    private fun showOverview(localOnly: Boolean = false) {
         val intent = Intent(this, OverviewActivity::class.java)
+        intent.putExtra("localOnly", localOnly)
         startActivity(intent)
     }
 

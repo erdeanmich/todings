@@ -40,6 +40,14 @@ class OverviewActivity : AppCompatActivity(), ToDoOverviewAdapter.OnItemClickLis
         setContentView(R.layout.activity_overview)
         setSupportActionBar(findViewById(R.id.toolbar))
 
+        if(intent.getBooleanExtra("localOnly", false)) {
+            Toast.makeText(
+                this,
+                "No connection to webservice - using local database only",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+
         //setup recyclerview
         val overviewRecyclerView = findViewById<RecyclerView>(R.id.overview_recycler_view)
         overviewRecyclerView.adapter = adapter
